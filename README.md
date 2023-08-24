@@ -5,6 +5,9 @@
 DOWNLOAD:
 '''"wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh"'''
 
+```bash wget -O myscript.sh "https://raw.githubusercontent.com/user/repository/branch/path/to/script.sh"
+
+
 
 
 
