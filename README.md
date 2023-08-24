@@ -1,6 +1,4 @@
 # enumBASE
-download:
-wget https://github.com/grahmik/enumBASE/blob/master/enumBASE.sh; chmod +x enumBASE.sh
 
 ![image](https://github.com/grahmik/enumBASE/assets/125515783/3c23d1af-7e9f-4820-b95b-84495c5ae789)
 
