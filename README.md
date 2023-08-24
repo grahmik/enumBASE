@@ -1,2 +1,3 @@
 # enumBASE
-A basic bash enumeration script designed for post-exploitation Linux enumeration 
+download:
+wget https://github.com/grahmik/enumBASE/blob/master/enumBASE.sh 
