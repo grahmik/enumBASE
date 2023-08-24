@@ -4,13 +4,10 @@
 
 
 
-To download and run enumBASE script, use the following command:
-
+# To download and run enumBASE script, use the following command:
 ``` wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh ```
 
-
-
-
+#
 # Developing a Basic Linux Enumeration Script for Penetration Testing
 
 END GOAL
