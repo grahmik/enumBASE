@@ -2,9 +2,10 @@
 
 ![image](https://github.com/grahmik/enumBASE/assets/125515783/3c23d1af-7e9f-4820-b95b-84495c5ae789)
 
-DOWNLOAD: wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh
+DOWNLOAD:
+'''wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh
 
-```wget -O myscript.sh "https://raw.githubusercontent.com/user/repository/branch/path/to/script.sh"'''
+
 
 
 
