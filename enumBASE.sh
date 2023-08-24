@@ -48,7 +48,6 @@ echo -e " $green----------------------------------------------------------------
  sleep .2
  echo -e "$green|$reset by: Mike Graham @grahmik                                           $green|"
  echo -e " --------------------------------------------------------------------$reset"
- sleep 1
 
 # Remove the enum directory if it exists #####################
 rm -r .enum 2>/dev/null
