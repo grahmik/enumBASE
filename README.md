@@ -6,11 +6,6 @@ DOWNLOAD:
 
 ```wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh```
 
-
-
-
-
-
 # Developing a Basic Linux Enumeration Script for Penetration Testing
 
 END GOAL
