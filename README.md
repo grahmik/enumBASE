@@ -4,7 +4,7 @@
 
 DOWNLOAD:
 
-```bash wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh```
+```wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh```
 
 
 
