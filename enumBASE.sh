@@ -295,7 +295,7 @@ while true; do
                     titles "Writeable Folders And Files"
                     find / -xdev -type d -perm -0002 -ls 2> /dev/null
                     find / -xdev -type f -perm -0002 -ls 2> /dev/null
-                    titles "Current User Permissions"
+                    titles "Current User File Permissions"
                     echo -e "$red$italic** To run this enumeration, open enumBase.sh and un-comment this command. Can take a long time **$reset"
                     #find / -perm -4000 -user root -exec ls -ld {} \; 2> /dev/null
                 } | tee "$filesys"
