@@ -26,11 +26,12 @@ yellow='\e[33m'
 black='\e[30m'
 gray='\e[30;1m'
 bg_yellow='\e[43m'
-bg_blue="\e[44m"
+bg_blue='\e[44m'
 bg_black='\e[97m\e[40m'
 reset='\e[0;0m'
 bold='\e[01m'
 underline='\e[04m'
+italic='\033[3m'
 
 # Title #####################
 echo
@@ -54,17 +55,21 @@ echo -e "  \\███████\\██   \\██ \\██████ \\█
 sleep .04
 echo
 sleep .04
-echo -e "   $bg_blue$black by: Mike Graham  htb/github @grahmik $reset"
-
+echo -e "   $bg_blue$black        @grahmik on htb/github        $reset"
 sleep .04
 
 # Remove the enum directory if it exists #####################
 rm -r .enum 2>/dev/null
 
 # Create the enum directory & move into it #####################
-echo -e "\n$red** Created hidden directory '.enum' | Some results will be saved there **$reset\n"
 mkdir .enum && cd .enum
 
+# Advisories
+echo -e "\n**$italic This script is intended for ethical hacking use only **"
+sleep .04
+echo -e "** Restrict use to personal computers or with explicit permission from the owner$reset **"
+sleep .04
+echo -e "\n$red** Created hidden directory '.enum' | Some results will be saved there **$reset\n"
 sleep .04
 
 # Function to display section headers #####################
@@ -80,7 +85,7 @@ titles() {
 # Loop to keep going until user selects "Exit" #####################
 while true; do
 
-    # Display menu and capture user selections#####################
+    # Display menu and capture user selections #####################
     section_header "[Menu]"
 
     echo -e "\n$blue** Select options by entering the corresponding numbers separated by spaces **\n$reset"
@@ -95,9 +100,11 @@ while true; do
     echo "  9) File Systems"
     echo " 10) Software Versions"
     echo " 11) Lynis Scan"
-    echo " 12) Run 2-10"
-    echo " 13) Run All"
-    echo " 14) Exit"
+    echo " 12) John The Ripper"
+    echo " 13) Run 2-10"
+    echo " 14) Run All"
+    echo " 15) Delete Logs"
+    echo " 16) Exit"
 
     echo
     read -p "Enter your selection(s): " selection_input
@@ -117,10 +124,12 @@ while true; do
             9) selected_options+=("File Systems");;
             10) selected_options+=("Software Versions");;
             11) selected_options+=("Lynis Scan");;
-            12) selected_options=("User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions");;
-            13) selected_options=("NMAP Scan" "User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions" "Lynis Scan");;
-            14) echo -e "\n$red** Exiting **$reset\n"; exit 0;;
-            *) echo -e "\n$red** Invalid selection: $selection **$reset\n"; sleep 1;;
+            12) selected_options+=("John The Ripper");;
+            13) selected_options=("User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions");;
+            14) selected_options=("NMAP Scan" "User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions" "Lynis Scan" "John The Ripper");;
+            15) selected_options+=("Delete Logs");;
+            16) echo -e "\n$red$italic** Exiting **$reset\n"; exit 0;;
+            *) echo -e "\n$red$italic** Invalid selection: $selection **$reset\n"; sleep 1;;
         esac
     done
 
@@ -132,7 +141,7 @@ while true; do
                 # Nmap scan #####################
                 section_header "[Nmap: $ip_local]"
                 nmap -sC -sV $ip_local -oA nmap_results
-                sleep 1
+                sleep .04
                 ;;
             # User information #####################
             "User Information")
@@ -156,7 +165,7 @@ while true; do
                     titles "Current User Sudo Privs:"
                     sudo -l
                 } | tee "$user_info_output"
-                sleep 1
+                sleep .04
                 ;;
             # Operating system information ##################### 
             "Operating System Info")
@@ -171,7 +180,7 @@ while true; do
                     titles "Kernel Info:"
                     cat /proc/version
                 } | tee "$os_info_output"
-                sleep 1
+                sleep .04
                 ;;
             # Apps and services #####################
             "Apps & Services")
@@ -184,9 +193,9 @@ while true; do
                     titles "Apps & Services:"
                     ps aux
                     dpkg -l > installed_applications.txt
-                    echo -e "\n$red** Check the hidden directory '.enum' to see a list of installed applications **$reset"
+                    echo -e "\n$red$italic** Check the hidden directory '.enum' to see a list of installed applications **$reset"
                 } | tee "$app_serv_info"
-                sleep 1
+                sleep .04
                 ;;
             # Cron jobs #####################
             "Cron Jobs")
@@ -195,12 +204,12 @@ while true; do
                 titles "Crontab:"
                 crontab -l
     
-                echo -e "\n$red** Check the hidden directory '.enum' for info on daily, hourly, and monthly cron jobs **$reset"
+                echo -e "\n$red$italic** Check the hidden directory '.enum' for info on daily, hourly, and monthly cron jobs **$reset"
     
                 cat /etc/cron.daily/* > cron_daily.txt
                 cat /etc/cron.hourly/* > cron_hourly.txt
                 cat /etc/cron.monthly/* > cron_monthly.txt
-                sleep 1
+                sleep .04
                 ;;
             # Network information #####################
             "Network Info")
@@ -213,7 +222,7 @@ while true; do
                     titles "IP Link:"
                     ip link
                 } | tee "$network"
-                sleep 1
+                sleep .04
                 ;;
             # Sensitive files #####################
             "Sensitive Files")
@@ -228,9 +237,9 @@ while true; do
                     titles "/etc/shadow:"
                     cat /etc/shadow
 
-                    echo -e "\n$red** If /etc/shadow is accessible, use John The Ripper to crack password hashes **$reset"
+                    echo -e "\n$red$italic** If /etc/shadow is accessible, use John The Ripper to crack password hashes **$reset"
                 } | tee "$files"
-                sleep 1
+                sleep .04
                 ;;
             # Home and root directories #####################
             "Home & Root Directories")
@@ -238,11 +247,11 @@ while true; do
 
                 titles "Home Directory:"
                 ls -ahlR /home/ > home_dir.txt
-                echo -e "$red** Check the hidden directory '.enum' for 'home_dir.txt' **$reset"
+                echo -e "$red$italic** Check the hidden directory '.enum' for 'home_dir.txt' **$reset"
                 titles "Root Directory:"
                 ls -ahlR /root/ > root_dir.txt
-                echo -e "$red** Check the hidden directory '.enum' for 'root_dir.txt' **$reset"
-                sleep 1
+                echo -e "$red$italic** Check the hidden directory '.enum' for 'root_dir.txt' **$reset"
+                sleep .04
                 ;;
             # File systems #####################
             "File Systems")
@@ -260,31 +269,30 @@ while true; do
                     find / -xdev -type d -perm -0002 -ls 2> /dev/null
                     find / -xdev -type f -perm -0002 -ls 2> /dev/null
                     titles "Current User Permissions:"
-                    echo -e "$red** To run this enumeration, open enumBase.sh and un-comment this command. Can take a long time **$reset"
+                    echo -e "$red$italic** To run this enumeration, open enumBase.sh and un-comment this command. Can take a long time **$reset"
                     #find / -perm -4000 -user root -exec ls -ld {} \; 2> /dev/null
                 } | tee "$filesys"
-                sleep 1
+                sleep .04
                 ;;
             # Software versions #####################
             "Software Versions")
                 software="software_version.txt"
-
                 {
                     section_header "[Software]"
 
-                    titles "perl:"
+                    titles "Perl:"
                     which perl
-                    titles "python:"
+                    titles "Python:"
                     which python
-                    titles "python3:"
+                    titles "Python3:"
                     which python3
-                    titles "wget:"
+                    titles "Wget:"
                     which wget
-                    titles "netcat:"
+                    titles "Netcat:"
                     which nc
                     which netcat
                 } | tee "$software"
-                sleep 1
+                sleep .04
                 ;;
             # Lynis #####################
             "Lynis Scan")
@@ -297,7 +305,30 @@ while true; do
                 
                 section_header "[Lynis System Audit]"
                 lynis audit system
-                sleep 1
+                sleep .04
+                ;;
+            # John The Ripper #####################
+            "John The Ripper")
+                jtr="cracked_passwords.txt"
+                {
+                    section_header "[John The Ripper]"
+
+                    echo -e "\n$red$italic** John The Ripper only works if you have access to /etc/shadow **$reset"
+                    echo -e "\n$red$italic** Run enumBASE as sudo if possible **$reset"
+                    titles "Cracked Passwords:"
+                    cat /etc/shadow > shadow
+                    john shadow
+                } | tee "$jtr"
+                sleep .04
+                ;;
+            # Delete logs from .enum directory #####################
+            "Delete Logs")
+                cd ..
+                rm -r .enum/
+                mkdir .enum/
+                cd .enum/
+                echo -e "\n$red$italic** Removed logs from .enum directory **"
+                sleep .04
                 ;;
         esac
     done
