@@ -3,7 +3,8 @@
 # To download and run enumBASE script, use the following command:
 ``` wget https://raw.githubusercontent.com/grahmik/enumBASE/master/enumBASE.sh; chmod +x enumBASE.sh ```
 
-![image](https://github.com/grahmik/enumBASE/assets/125515783/067856f0-2312-48d0-b1bb-47f27d59592d)
+![image](https://github.com/grahmik/enumBASE/assets/125515783/2d322b91-22f6-44ff-b1a1-45a1c51346ba)
+
 
 
 # Developing a Basic Linux Enumeration Script for Penetration Testing
