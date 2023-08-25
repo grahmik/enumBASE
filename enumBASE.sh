@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###########################################################################
-# enumBase - Basic Enumeration Script for Linux Systems
+# enumBASE - Basic Enumeration Script for Linux Systems
 #
 # This script is designed to assist in the enumeration of Linux systems.
 # It provides a menu-based interface for selecting various sections of
@@ -24,50 +24,57 @@ green='\e[32m'
 blue='\e[34m'
 yellow='\e[33m'
 black='\e[30m'
+gray='\e[30;1m'
 bg_yellow='\e[43m'
 bg_blue="\e[44m"
+bg_black='\e[97m\e[40m'
 reset='\e[0;0m'
 bold='\e[01m'
 underline='\e[04m'
 
 # Title #####################
 echo
-echo -e " $green--------------------------------------------------------------------"
- echo -e "$green|                                 $yellow######      #      #####   ####### $green|"
- sleep .2 
- echo -e "$green|$blue ######  #    #  #    #  #    #  $yellow#     #    # #    #     #  #       $green|"       
- sleep .2
- echo -e "$green|$blue #       ##   #  #    #  ##  ##  $yellow#     #   #   #   #        #       $green|"       
- sleep .2
- echo -e "$green|$blue #####   # #  #  #    #  # ## #  $yellow######   #     #   #####   #####   $green|"   
- sleep .2
- echo -e "$green|$blue #       #  # #  #    #  #    #  $yellow#     #  #######        #  #       $green|"       
- sleep .2
- echo -e "$green|$blue #       #   ##  #    #  #    #  $yellow#     #  #     #  #     #  #       $green|"       
- sleep .2
- echo -e "$green|$blue ######  #    #   ####   #    #  $yellow######   #     #   #####   ####### $green|$reset"
- sleep .2
- echo -e "$green|$reset by: Mike Graham @grahmik                                           $green|"
- echo -e " --------------------------------------------------------------------$reset"
- sleep .5
+echo -e "$yellow                                         _______   ______   ______  ________"
+sleep .04
+echo -e "                                        |       \\ /      \\ /      \\|        \\"
+sleep .04
+echo -e "  ______  _______  __    __ ______ ____ | ███████\\  ██████\\  ██████\\ ████████"
+sleep .04
+echo -e " /      \\|       \\|  \\  |  \\      \\    \\| ██__/ ██ ██__| ██ ██___\\██ ██__"
+sleep .04
+echo -e "|  ██████\\ ███████\\ ██  | ██ ██████\\████\\ ██    ██ ██    ██\\██    \\| ██  \\"
+sleep .04
+echo -e "| ██    ██ ██  | ██ ██  | ██ ██ | ██ | ██ ███████\\ ████████_\\██████\\ █████"
+sleep .04
+echo -e "| ████████ ██  | ██ ██__/ ██ ██ | ██ | ██ ██__/ ██ ██  | ██  \\__| ██ ██_____"
+sleep .04
+echo -e " \\██     \\ ██  | ██\\██    ██ ██ | ██ | ██ ██    ██ ██  | ██\\██    ██ ██     \\"
+sleep .04
+echo -e "  \\███████\\██   \\██ \\██████ \\██  \\██  \\██\\███████ \\██   \\██ \\██████ \\████████"
+sleep .04
+echo
+sleep .04
+echo -e "   $bg_blue$black by: Mike Graham  htb/github @grahmik $reset"
+
+sleep .04
 
 # Remove the enum directory if it exists #####################
 rm -r .enum 2>/dev/null
 
 # Create the enum directory & move into it #####################
-echo -e "\n$red** Creating hidden directory '.enum'. Some results will be saved there **$reset\n"
+echo -e "\n$red** Created hidden directory '.enum' | Some results will be saved there **$reset\n"
 mkdir .enum && cd .enum
 
-sleep .5
+sleep .04
 
 # Function to display section headers #####################
 section_header() {
-    echo -e "\n$black$bg_yellow                             ⬇️⬇️⬇️$1⬇️⬇️⬇️                                $reset\n"
+    echo -e "\n$bg_yellow$black                         ⬇️⬇️⬇️$1⬇️⬇️⬇️                            $reset"
     }
 
 # Function to display titles #####################
 titles() {
-    echo -e "\n$blue$underline$1$reset\n"
+    echo -e "\n$blue$underline$1$reset"
 }
 
 # Loop to keep going until user selects "Exit" #####################
@@ -76,7 +83,7 @@ while true; do
     # Display menu and capture user selections#####################
     section_header "[Menu]"
 
-    echo -e "$yellow** Select options by entering the corresponding numbers separated by spaces **\n$reset"
+    echo -e "\n$blue** Select options by entering the corresponding numbers separated by spaces **\n$reset"
     echo "  1) NMAP Scan"
     echo "  2) User Information"
     echo "  3) Operating System Info"
@@ -88,7 +95,9 @@ while true; do
     echo "  9) File Systems"
     echo " 10) Software Versions"
     echo " 11) Lynis Scan"
-    echo " 12) Exit"
+    echo " 12) Run 2-10"
+    echo " 13) Run All"
+    echo " 14) Exit"
 
     echo
     read -p "Enter your selection(s): " selection_input
@@ -108,7 +117,9 @@ while true; do
             9) selected_options+=("File Systems");;
             10) selected_options+=("Software Versions");;
             11) selected_options+=("Lynis Scan");;
-            12) echo -e "\n$red** Exiting **\n"; exit 0;;
+            12) selected_options=("User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions");;
+            13) selected_options=("NMAP Scan" "User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions" "Lynis Scan");;
+            14) echo -e "\n$red** Exiting **$reset\n"; exit 0;;
             *) echo -e "\n$red** Invalid selection: $selection **$reset\n"; sleep 1;;
         esac
     done
@@ -119,7 +130,7 @@ while true; do
             "NMAP Scan")
                 ip_local=$(ip -o -f inet addr show | grep "scope global" | awk -F ' ' '{ print $4 }')
                 # Nmap scan #####################
-                section_header "[NMAP: Scanning $ip_local]"
+                section_header "[Nmap: $ip_local]"
                 nmap -sC -sV $ip_local -oA nmap_results
                 sleep 1
                 ;;
@@ -135,7 +146,7 @@ while true; do
                     titles "Current User ID:"
                     id
                     titles "PATH:"
-                    $PATH
+                    echo $PATH
                     titles "Recent Users:"
                     last
                     titles "Logged In Users:"
@@ -151,7 +162,7 @@ while true; do
             "Operating System Info")
                 os_info_output="os_info.txt"
                 {
-                    section_header "[Operating System & Version Info]"
+                    section_header "[OS & Version Info]"
 
                     titles "OS:"
                     cat /etc/issue
@@ -170,6 +181,8 @@ while true; do
 
                     titles "Apps & Services Running As ROOT:"
                     ps aux | grep root
+                    titles "Apps & Services:"
+                    ps aux
                     dpkg -l > installed_applications.txt
                     echo -e "\n$red** Check the hidden directory '.enum' to see a list of installed applications **$reset"
                 } | tee "$app_serv_info"
@@ -221,7 +234,7 @@ while true; do
                 ;;
             # Home and root directories #####################
             "Home & Root Directories")
-                section_header "[Home & ROOT Directories]"
+                section_header "[Home & ROOT Dir]"
 
                 titles "Home Directory:"
                 ls -ahlR /home/ > home_dir.txt
