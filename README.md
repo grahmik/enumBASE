@@ -1,6 +1,7 @@
 # enumBASE
 
-![image](https://github.com/grahmik/enumBASE/assets/125515783/141a0b82-3fc5-4e78-93fb-a3e9e6040ce3)
+![image](https://github.com/grahmik/enumBASE/assets/125515783/e8b58808-1249-4d48-b5dc-c40edfd4a64f)
+
 
 
 
