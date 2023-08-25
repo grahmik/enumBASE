@@ -25,6 +25,7 @@ blue='\e[34m'
 yellow='\e[33m'
 black='\e[30m'
 bg_yellow='\e[43m'
+bg_blue="\e[44m"
 reset='\e[0;0m'
 bold='\e[01m'
 underline='\e[04m'
@@ -48,7 +49,7 @@ echo -e " $green----------------------------------------------------------------
  sleep .2
  echo -e "$green|$reset by: Mike Graham @grahmik                                           $green|"
  echo -e " --------------------------------------------------------------------$reset"
- sleep 1
+ sleep .5
 
 # Remove the enum directory if it exists #####################
 rm -r .enum 2>/dev/null
@@ -57,18 +58,16 @@ rm -r .enum 2>/dev/null
 echo -e "\n$red** Creating hidden directory '.enum'. Some results will be saved there **$reset\n"
 mkdir .enum && cd .enum
 
-sleep 2
+sleep .5
 
 # Function to display section headers #####################
 section_header() {
-    echo -e "$black$bg_yellow\n"
-    echo -e " ⬇️⬇️⬇️$1⬇️⬇️⬇️ "
-    echo -e "$reset"
-}
+    echo -e "\n$black$bg_yellow                             ⬇️⬇️⬇️$1⬇️⬇️⬇️                                $reset\n"
+    }
 
 # Function to display titles #####################
 titles() {
-    echo -e "$blue\n$1$reset"
+    echo -e "\n$blue$underline$1$reset\n"
 }
 
 # Loop to keep going until user selects "Exit" #####################
@@ -77,7 +76,7 @@ while true; do
     # Display menu and capture user selections#####################
     section_header "[Menu]"
 
-    echo -e "$blue** Select options by entering the corresponding numbers separated by spaces **\n$reset"
+    echo -e "$yellow** Select options by entering the corresponding numbers separated by spaces **\n$reset"
     echo "  1) NMAP Scan"
     echo "  2) User Information"
     echo "  3) Operating System Info"
@@ -131,19 +130,19 @@ while true; do
                 {
                     section_header "[User Information]"
     
-                    titles "Current User: "
+                    titles "Current User:"
                     whoami
-                    titles "Current User ID: "
+                    titles "Current User ID:"
                     id
-                    titles "PATH: "
+                    titles "PATH:"
                     $PATH
-                    titles "Recent Users: "
+                    titles "Recent Users:"
                     last
-                    titles "Logged In Users: "
+                    titles "Logged In Users:"
                     w
-                    titles "Sudoers: "
+                    titles "Sudoers:"
                     cat /etc/sudoers
-                    titles "Current User Sudo Privs: "
+                    titles "Current User Sudo Privs:"
                     sudo -l
                 } | tee "$user_info_output"
                 sleep 1
@@ -154,11 +153,11 @@ while true; do
                 {
                     section_header "[Operating System & Version Info]"
 
-                    titles "OS: "
+                    titles "OS:"
                     cat /etc/issue
-                    titles "Version Info: "
+                    titles "Version Info:"
                     cat /etc/*-release
-                    titles "Kernel Info: "
+                    titles "Kernel Info:"
                     cat /proc/version
                 } | tee "$os_info_output"
                 sleep 1
@@ -180,7 +179,7 @@ while true; do
             "Cron Jobs")
                 section_header "[Cron Jobs]"
     
-                titles "Crontab: "
+                titles "Crontab:"
                 crontab -l
     
                 echo -e "\n$red** Check the hidden directory '.enum' for info on daily, hourly, and monthly cron jobs **$reset"
@@ -196,9 +195,9 @@ while true; do
                 {
                     section_header "[Network]"
 
-                    titles "Local Network: "
+                    titles "Local Network:"
                     ifconfig
-                    titles "IP Link: "
+                    titles "IP Link:"
                     ip link
                 } | tee "$network"
                 sleep 1
@@ -211,9 +210,9 @@ while true; do
 
                     titles "/etc/passwd:"
                     cat /etc/passwd
-                    titles "/etc/group: "
+                    titles "/etc/group:"
                     cat /etc/group
-                    titles "/etc/shadow: "
+                    titles "/etc/shadow:"
                     cat /etc/shadow
 
                     echo -e "\n$red** If /etc/shadow is accessible, use John The Ripper to crack password hashes **$reset"
@@ -224,10 +223,10 @@ while true; do
             "Home & Root Directories")
                 section_header "[Home & ROOT Directories]"
 
-                titles "Home Directory: "
+                titles "Home Directory:"
                 ls -ahlR /home/ > home_dir.txt
                 echo -e "$red** Check the hidden directory '.enum' for 'home_dir.txt' **$reset"
-                titles "Root Directory: "
+                titles "Root Directory:"
                 ls -ahlR /root/ > root_dir.txt
                 echo -e "$red** Check the hidden directory '.enum' for 'root_dir.txt' **$reset"
                 sleep 1
@@ -238,13 +237,13 @@ while true; do
                 {
                     section_header "[File Systems]"
 
-                    titles "File Systems Mounts: "
+                    titles "File Systems Mounts:"
                     mount
-                    titles "Disk Usage/Mounts: "
+                    titles "Disk Usage/Mounts:"
                     df -h
-                    titles "Unmounted File Systems: "
+                    titles "Unmounted File Systems:"
                     cat /etc/fstab
-                    titles "Writeable Folders And Files: "
+                    titles "Writeable Folders And Files:"
                     find / -xdev -type d -perm -0002 -ls 2> /dev/null
                     find / -xdev -type f -perm -0002 -ls 2> /dev/null
                     titles "Current User Permissions:"
@@ -260,15 +259,15 @@ while true; do
                 {
                     section_header "[Software]"
 
-                    titles "perl: "
+                    titles "perl:"
                     which perl
-                    titles "python: "
+                    titles "python:"
                     which python
-                    titles "python3: "
+                    titles "python3:"
                     which python3
-                    titles "wget: "
+                    titles "wget:"
                     which wget
-                    titles "netcat: "
+                    titles "netcat:"
                     which nc
                     which netcat
                 } | tee "$software"
