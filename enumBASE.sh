@@ -92,7 +92,7 @@ sleep .04
 
 # Function to display section headers #####################
 section_header() {
-    echo -e "\n$bg_yellow$black                            ⬇⬇⬇$1⬇⬇⬇                               $reset"
+    echo -e "\n$bg_yellow$black                            ⬇⬇⬇ $1 ⬇⬇⬇                               $reset"
     }
 
 # Function to display titles #####################
