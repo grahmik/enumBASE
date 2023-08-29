@@ -10,18 +10,18 @@
 
 # Developing a Basic Linux Enumeration Script for Penetration Testing
 
-END GOAL
+OBJECTIVE
 
 The core objective of this project is to construct a Linux enumeration script designed to bolster the efforts of penetration testers post-gaining access to a target Linux system. The script will play a pivotal role in systematically uncovering critical insights into the compromised system's architecture, service configuration, and vulnerabilities. By leveraging these insights, security professionals can fortify their strategies for lateral movement, privilege escalation, and system hardening.
 
 
 # Devices and/or Technologies That Will Be Used
 
-1. Linux Operating System (Kali Linux)
+1. Linux Operating System
 2. Bash Scripting
-3. Network Scanning Tools (e.g., Nmap)
+3. Network Scanning Tools
 4. Service Enumeration Tools 
-5. Version Detection Tools (e.g., Banner Grabbing)
+5. Version Detection Tools)
 
 
 # Summary of How Devices and/or Technologies Will Be Used
