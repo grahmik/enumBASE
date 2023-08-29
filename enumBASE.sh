@@ -61,7 +61,7 @@ echo -e "   $bg_yellow                                      $reset"
 sleep .04
 echo -e "   $bg_yellow  $reset                                  $bg_yellow  $reset"
 sleep .04
-echo -e "   $bg_yellow  $reset $blue enumBASE$reset$gray .......$reset version 1.1.0  $bg_yellow  $reset"
+echo -e "   $bg_yellow  $reset $blue enumBASE$reset$gray ..............$reset v0.0.1  $bg_yellow  $reset"
 sleep .04
 echo -e "   $bg_yellow  $reset $blue Author$reset$gray ...........$reset Mike Graham  $bg_yellow  $reset"
 sleep .04
@@ -123,9 +123,8 @@ while true; do
     echo "  9) File Systems"
     echo " 10) Software Versions"
     echo " 11) Lynis Scan"
-    echo " 12) John The Ripper"
-    echo " 13) Run 2-10"
-    echo " 14) Run All"
+    echo " 12) Run 2-10"
+    echo " 13) Run All"
     echo "  D) Delete Logs"
     echo "  R) Remove .enum/"
     echo "  E) Exit"
@@ -148,9 +147,8 @@ while true; do
             9) selected_options+=("File Systems");;
             10) selected_options+=("Software Versions");;
             11) selected_options+=("Lynis Scan");;
-            12) selected_options+=("John The Ripper");;
-            13) selected_options=("User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions");;
-            14) selected_options=("NMAP Scan" "User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions" "Lynis Scan" "John The Ripper");;
+            12) selected_options=("User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions");;
+            13) selected_options=("NMAP Scan" "User Information" "Operating System Info" "Apps & Services" "Cron Jobs" "Network Info" "Sensitive Files" "Home & Root Directories" "File Systems" "Software Versions" "Lynis Scan");;
              D) selected_options+=("Delete Logs");;
              R) selected_options+=("Remove .enum/");;
              E) echo -e "\n$red$italic** Exiting **$reset\n"; sleep .04; exit 0;;
@@ -318,6 +316,48 @@ while true; do
                     titles "Netcat"
                     which nc
                     which netcat
+
+                    # Check for outdated software
+                    echo
+                    read -p "Do you want to check for outdated software? Can take awhile (y/n): " check_software
+                    if [[ $check_software == "y" ]]; then
+
+                        echo -e "\n${green}** Checking for outdated software versions... **${reset}\n"
+
+                        # Get a list of all installed packages and versions
+                        installed_packages=$(dpkg -l | awk '/^ii/ {print $2}')
+
+                        # Calculate the total number of installed packages
+                        total_packages=$(echo "$installed_packages" | wc -l)
+
+                        # Initialize the progress counter
+                        progress=0
+
+                        # Loop through each installed package and check for outdated versions
+                        for package in $installed_packages; do
+                            installed_version=$(dpkg -l | awk "\$2==\"$package\"" | awk '{print $3}')
+                            latest_version=$(apt-cache policy "$package" | awk '/Candidate:/ {print $2}')
+
+                            if [[ -n "$installed_version" && -n "$latest_version" ]]; then
+                                if [[ "$installed_version" != "$latest_version" ]]; then
+                                    echo -e "\n${red}- Package '$package' is outdated.${reset} Installed version: $installed_version, Latest version: $latest_version"
+        
+                                fi
+                            else
+                                echo "Package '$package' not found or version information not available."
+                            fi
+
+                            # Increment the progress counter
+                            ((progress++))
+                            echo -ne "\rProgress: [$progress/$total_packages]"
+                        done
+
+                        echo -e "\nChecked $progress/$total_packages packages."
+                        echo -e "\n${green}** Checking complete! **${reset}"
+                    else
+                        echo -e "\n$red Skipping...$reset"
+                        sleep 1 
+                    fi
                 } | tee "$software"
                 sleep .04
                 ;;
@@ -341,35 +381,6 @@ while true; do
                 fi
 
                 lynis audit system
-                sleep .04
-                ;;
-            # John the ripper #####################
-            "John The Ripper")
-                jtr="cracked_passwords_$(timestamp).txt"
-                section_header "[John The Ripper]"
-    
-                if ! command -v john &>/dev/null; then
-                    echo
-                    read -p "John The Ripper is not installed. Do you want to install it? (y/n): " install_jtr
-                    if [[ $install_jtr == "y" ]]; then
-                        echo "\n$blue Installing John The Ripper...$reset"
-                        sleep .04
-                        sudo apt-get update
-                        sudo apt-get install -y john
-                    else
-                        echo -e "\n$red Skipping...$reset"
-                        sleep 1
-                        continue
-                    fi
-                fi
-
-                {
-                    echo -e "\n$red$italic** John The Ripper only works if you have access to /etc/shadow **$reset"
-                    echo -e "\n$red$italic** Run enumBASE as sudo if possible **$reset"
-                    titles "Cracked Passwords"
-                    sudo unshadow /etc/passwd /etc/shadow > unshadowed.txt
-                    john unshadowed.txt
-                } | tee "$jtr"
                 sleep .04
                 ;;
             # Delete logs from .enum directory #####################
