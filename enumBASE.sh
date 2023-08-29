@@ -76,11 +76,9 @@ sleep .04
 echo -e "   $bg_yellow                                      $reset"
 sleep .04
 
-# Remove the enum directory if it exists #####################
-rm -r .enum 2>/dev/null
-
 # Create the enum directory & move into it #####################
-mkdir .enum && cd .enum
+mkdir .enum 2>/dev/null
+cd .enum
 
 # Advisories
 echo -e "\n**$italic This script is intended for ethical hacking use only **"
@@ -301,7 +299,7 @@ while true; do
                 ;;
             # Software versions #####################
             "Software Versions")
-                software="software_version.txt"
+                software="software_version_$(timestamp).txt"
                 {
                     section_header "[Software]"
 
@@ -317,23 +315,23 @@ while true; do
                     which nc
                     which netcat
 
-                    # Check for outdated software
+                    # Check for outdated software #####################
                     echo
                     read -p "Do you want to check for outdated software? Can take awhile (y/n): " check_software
                     if [[ $check_software == "y" ]]; then
 
                         echo -e "\n${green}** Checking for outdated software versions... **${reset}\n"
 
-                        # Get a list of all installed packages and versions
+                        # Get a list of all installed packages and versions #####################
                         installed_packages=$(dpkg -l | awk '/^ii/ {print $2}')
 
-                        # Calculate the total number of installed packages
+                        # Calculate the total number of installed packages #####################
                         total_packages=$(echo "$installed_packages" | wc -l)
 
-                        # Initialize the progress counter
+                        # Initialize the progress counter #####################
                         progress=0
 
-                        # Loop through each installed package and check for outdated versions
+                        # Loop through each installed package and check for outdated versions #####################
                         for package in $installed_packages; do
                             installed_version=$(dpkg -l | awk "\$2==\"$package\"" | awk '{print $3}')
                             latest_version=$(apt-cache policy "$package" | awk '/Candidate:/ {print $2}')
@@ -347,13 +345,13 @@ while true; do
                                 echo "Package '$package' not found or version information not available."
                             fi
 
-                            # Increment the progress counter
+                            # Increment the progress counter #####################
                             ((progress++))
                             echo -ne "\rProgress: [$progress/$total_packages]"
                         done
 
-                        echo -e "\nChecked $progress/$total_packages packages."
-                        echo -e "\n${green}** Checking complete! **${reset}"
+                        echo -e "\n$blue** Checked $progress/$total_packages packages.$reset"
+                        echo -e "\n$green** Checking complete! **$reset"
                     else
                         echo -e "\n$red Skipping...$reset"
                         sleep 1 
@@ -394,7 +392,7 @@ while true; do
                 ;;
             # Remove .enum/ directory
             "Remove .enum/")
-               '.enum/' directory and associated logs... **$reset" echo -e "\n$red$italic** Removing 
+                echo -e "\n$red$italic** Removing '.enum/' **$reset"
                 cd ..
                 rm -r .enum/
                 sleep 1
