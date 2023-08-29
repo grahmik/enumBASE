@@ -8,7 +8,7 @@
 # system information to gather, including network scanning, user details,
 # operating system info, installed applications, cron jobs, network info,
 # sensitive files, home and root directories, file system details,
-# software versions, and system audits using Lynis.
+# software versions, and system audits using Lynis (if possible).
 #
 # Author: Mike Graham (@grahmik)
 # GitHub Repository: https://github.com/grahmik/enumBase
