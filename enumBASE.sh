@@ -260,7 +260,6 @@ while true; do
                     titles "/etc/shadow"
                     cat /etc/shadow
 
-                    echo -e "\n$red$italic** If /etc/shadow is accessible, use John The Ripper to crack password hashes **$reset"
                 } | tee "$files"
                 sleep .04
                 ;;
