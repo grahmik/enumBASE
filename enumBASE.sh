@@ -313,6 +313,7 @@ while true; do
                     titles "Netcat"
                     which nc
                     which netcat
+                    sleep .04
 
                     # Check for outdated software #####################
                     echo
