@@ -162,7 +162,7 @@ while true; do
                 # Nmap scan #####################
                 section_header "[Nmap: $ip_local]"
                 echo -e "\n$blue** Target Local Network: $yellow$ip_local$blue **$reset\n"
-                nmap -sC -sV $ip_local -v -oA nmap_results
+                nmap -sC -sV $ip_local -oA nmap_results
                 echo
                 sleep .04
                 ;;
